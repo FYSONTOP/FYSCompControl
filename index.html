@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mod Controller</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1a1a1a;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 30px;
+      background-color: #222;
+      border-radius: 12px;
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-size: 26px;
+    }
+
+    .toggle-section {
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #444;
+    }
+
+    .toggle-btn {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 14px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      margin-bottom: 20px;
+      white-space: normal;
+    }
+
+    .toggle-btn.active {
+      background-color: #e91e63;
+    }
+
+    /* Mini button styling for "Visualise" */
+    .mini-btn {
+      background-color: #555;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+    }
+
+    .mini-btn.active {
+      background-color: #e91e63;
+    }
+
+    /* Slider group animation styles */
+    .slider-group {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.5s ease, opacity 0.5s ease;
+      margin-bottom: 25px;
+    }
+    
+    .slider-group.visible {
+      max-height: 500px; /* adjust if needed */
+      opacity: 1;
+    }
+
+    .slider-group label {
+      font-size: 16px;
+      display: inline-block;
+      width: 180px;
+      margin-right: 10px;
+      color: #ccc;
+    }
+
+    .slider-group input[type="range"] {
+      width: 60%;
+      margin-top: 8px;
+    }
+
+    .slider-group span {
+      font-size: 16px;
+      margin-left: 12px;
+      color: #ddd;
+    }
+
+    .slider-group input[type="range"]::-webkit-slider-runnable-track {
+      background: #555;
+      height: 10px;
+      border-radius: 6px;
+    }
+
+    .slider-group input[type="range"]::-webkit-slider-thumb {
+      background: #e91e63;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      margin-top: -5px;
+    }
+
+    .slider-group input[type="range"]:focus {
+      outline: none;
+    }
+
+    /* Responsive text adjustment */
+    @media (max-width: 600px) {
+      .slider-group label {
+        width: 100%;
+        margin-bottom: 5px;
+      }
+      .slider-group input[type="range"] {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- Wall Boost -->
+    <div class="toggle-section">
+      <button class="toggle-btn" onclick="toggleButton(this, 'toggle-wallboost', 'wallBoost-sliders')">Wall Boost</button>
+      <div id="wallBoost-sliders" class="slider-group">
+        <label>Wall Boost Sensitivity: <span id="wallBoostSensitivityValue">5</span></label>
+        <input type="range" min="0" max="20" value="5" 
+               oninput="updateSlider(this, 'set-wallboost-sensitivity', 'wallBoostSensitivityValue')">
+        <br>
+        <label>Wall Boost Power: <span id="wallBoostPowerValue">5</span></label>
+        <input type="range" min="0" max="10" value="5" 
+               oninput="updateSlider(this, 'set-wallboost-power', 'wallBoostPowerValue')">
+      </div>
+    </div>
+    
+    <!-- Wall Walk -->
+    <div class="toggle-section">
+      <button class="toggle-btn" onclick="toggleButton(this, 'toggle-wallwalk', 'wallWalk-sliders')">Long Arms</button>
+      <div id="wallWalk-sliders" class="slider-group">
+        <label>Arm Length: <span id="wallWalkPowerValue">7</span></label>
+        <input type="range" min="0" max="20" value="12" 
+               oninput="updateSlider(this, 'set-wallwalk-power', 'wallWalkPowerValue')">
+      </div>
+    </div>
+    
+    <!-- Speed Boost -->
+    <div class="toggle-section">
+      <button class="toggle-btn" onclick="toggleButton(this, 'toggle-speedboost', 'speedBoost-sliders')">Speed Boost</button>
+      <div id="speedBoost-sliders" class="slider-group">
+        <label>Speed Boost X: <span id="speedBoostXValue">50</span></label>
+        <input type="range" min="0" max="100" value="50" 
+               oninput="updateSlider(this, 'set-speedboost-x', 'speedBoostXValue')">
+        <br>
+        <label>Speed Boost Y: <span id="speedBoostYValue">50</span></label>
+        <input type="range" min="0" max="100" value="50" 
+               oninput="updateSlider(this, 'set-speedboost-y', 'speedBoostYValue')">
+      </div>
+    </div>
+    
+    <!-- Pull Mod -->
+    <div class="toggle-section">
+      <button class="toggle-btn" onclick="toggleButton(this, 'toggle-pullmod', 'pullMod-sliders')">Pull Mod</button>
+      <div id="pullMod-sliders" class="slider-group">
+        <label>Pull Mod Strength: <span id="pullModStrengthValue">10</span></label>
+        <input type="range" min="0" max="20" value="10" 
+               oninput="updateSlider(this, 'set-pullmod', 'pullModStrengthValue')">
+      </div>
+    </div>
+    
+    <!-- Ground Helper -->
+    <div class="toggle-section">
+      <button class="toggle-btn" onclick="toggleButton(this, 'toggle-groundhelper', 'groundHelper-sliders')">Ground Helper</button>
+      <div id="groundHelper-sliders" class="slider-group">
+        <label>Ground Helper Power: <span id="groundHelperPowerValue">5</span></label>
+        <input type="range" min="0" max="15" value="5" 
+               oninput="updateSlider(this, 'set-groundhelper', 'groundHelperPowerValue')">
+      </div>
+    </div>
+    
+    <!-- Tag Aimbot -->
+    <div class="toggle-section">
+      <button class="toggle-btn" onclick="toggleButton(this, 'toggle-tagaimbot', 'tagAimbot-sliders')">Tag Aimbot</button>
+      <div id="tagAimbot-sliders" class="slider-group">
+        <label>Tag Aimbot Size: <span id="tagAimbotSizeValue">4</span></label>
+        <input type="range" min="0" max="20" value="4"
+               oninput="updateSlider(this, 'set-tagaimbot-size', 'tagAimbotSizeValue')">
+        <br>
+        <button class="mini-btn" onclick="toggleMiniButton(this, 'toggle-tagaimbot-visualise')">Visualise</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function sendRequest(endpoint) {
+      fetch(`http://localhost:8080/${endpoint}`)
+        .then(res => res.text())
+        .then(data => console.log(data))
+        .catch(err => console.error('Request failed:', err));
+    }
+
+    function toggleButton(button, endpoint, sliderGroupId) {
+      button.classList.toggle('active');
+      sendRequest(endpoint);
+      // Toggle the slider group visibility with animation
+      const sliderGroup = document.getElementById(sliderGroupId);
+      sliderGroup.classList.toggle('visible');
+    }
+
+    function updateSlider(slider, endpointPrefix, labelId) {
+      const value = slider.value;
+      document.getElementById(labelId).innerText = value;
+      sendRequest(`${endpointPrefix}/${value}`);
+    }
+
+    function toggleMiniButton(button, endpoint) {
+      button.classList.toggle('active');
+      sendRequest(endpoint);
+    }
+  </script>
+</body>
+</html>
